@@ -4,7 +4,7 @@ type ReadingStatus string
 
 const (
 	NotStarted ReadingStatus = "Not Started"
-	InProgres  ReadingStatus = "In Progress"
+	InProgress ReadingStatus = "In Progress"
 	Completed  ReadingStatus = "Completed"
 )
 
