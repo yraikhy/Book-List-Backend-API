@@ -5,20 +5,26 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/go-chi/jwtauth/v5"
 )
 
 type App struct {
-	router http.Handler
+	router    http.Handler
+	tokenAuth *jwtauth.JWTAuth
 }
 
 func New() *App { // Returns App type
-	db, err := initDB()
+	db, db2, err := initDB()
 	if err != nil {
-		log.Fatalf("Failed to initialize databse: %v", err)
+		log.Fatalf("Failed to initialize database: %v", err)
 	}
 
+	tokenAuth := jwtauth.New("HS256", []byte("books"), nil)
+
 	app := &App{ // Instance of App struct
-		router: loadRoutes(db),
+		router:    loadRoutes(db, db2, tokenAuth),
+		tokenAuth: tokenAuth,
 	}
 
 	return app
